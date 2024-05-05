@@ -3,10 +3,28 @@ import tkinter as tk
 from tkinter import*
 import googletrans
 import customtkinter
+from PIL import Image, ImageTk
 
 #subprogram for GUI
 def main_GUI():
+
+    #subprogram for rescaling GUI
+    def scaler(current):
+        new_height=current.height
+        new_width=current.width
+        y_multi=new_height/1080
+        x_multi=new_width/1920
+        avg_size=(new_height+new_width)/2
+
+        try:
+            bg_image=bg_image.resize((new_width,new_height))
+            bg_photoimage=ImageTk.PhotoImage(bg_image)
+            bg.config(image=bg_photoimage)
+            bg.image=bg_photoimage
+        except:
+            pass
     
+
    #subprogram for settings menu
     def settings():
         global root_settings
@@ -48,16 +66,19 @@ def main_GUI():
     #subprogram for exit button
     def close_main():
         root.destroy()
+        root.destroy()
         
-        
-    
-    #defining background
+    #defining GUI
     root=customtkinter.CTk()                                                                               
     root.title(title_text)
-    root.geometry("800x600") 
-    frame=customtkinter.CTkFrame(master=root, bg_color=bg_colour, corner_radius=30)
-    frame.pack(pady=20, padx=50, fill="both", expand=True)
-    customtkinter.set_appearance_mode(main_theme)
+    root.geometry("720x400") 
+
+    #defining background
+    bg_image=Image.open("Background image.png")
+    bg_photoimage=ImageTk.PhotoImage(bg_image)
+    bg=Label(root,image=bg_photoimage)
+    bg.bind("<Configure>",scaler)
+    bg.pack(fill=BOTH,expand=YES)
 
     #defining start menu elements
     title=customtkinter.CTkLabel(root,text=title_text,font=("ariel",30),bg_color=bg_colour, corner_radius=6, width=150)
