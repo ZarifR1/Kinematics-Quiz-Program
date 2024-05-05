@@ -71,14 +71,16 @@ def main_GUI():
     #defining GUI
     root=customtkinter.CTk()                                                                               
     root.title(title_text)
-    root.geometry("720x400") 
+    root.geometry("720x480")                         
 
     #defining background
     bg_image=Image.open("Background image.png")
     bg_photoimage=ImageTk.PhotoImage(bg_image)
     bg=Label(root,image=bg_photoimage)
     bg.bind("<Configure>",scaler)
-    bg.pack(fill=BOTH,expand=YES)
+    bg.pack(fill=NONE,expand=YES)
+    frame=customtkinter.CTkFrame(master=root,bg_color=bg_colour,width=720,height=480,corner_radius=30)
+    frame.pack(in_=bg, anchor="c",pady=20, padx=40, fill="both", expand=True)
 
     #defining start menu elements
     title=customtkinter.CTkLabel(root,text=title_text,font=("ariel",30),bg_color=bg_colour, corner_radius=6, width=150)
