@@ -38,7 +38,8 @@ def main_GUI():
 
    #subprogram for settings menu
     def settings():
-        global root_settings
+        def scaler_settings():
+            pass
         
         #subprogram for closing settings
         def close_settings():
@@ -48,8 +49,14 @@ def main_GUI():
         root_settings=customtkinter.CTk()
         root_settings.title(settings_text)
         root_settings.geometry("300x400") 
-        frame_settings=customtkinter.CTkFrame(master=root_settings, bg_color=bg_colour, corner_radius=30)
-        frame_settings.pack(pady=10, padx=20, fill="both", expand=True)
+        bg_image2=Image.open("Background image.png")
+        bg_image_copy2=bg_image2.copy()
+        bg_photoimage2=ImageTk.PhotoImage(bg_image_copy2)
+        bg_settings=customtkinter.CTkLabel(root_settings,image=bg_photoimage2)
+       # bg_settings.bind("<Configure>",scaler_settings)
+       # bg_settings.pack(fill='both',expand=True)
+       # frame_settings=customtkinter.CTkFrame(master=root_settings,fg_color=fg_colour,bg_color=bg_colour,width=300,height=400,corner_radius=30)
+        #frame_settings.place(relx=0.5,rely=0.5,in_=bg_settings, anchor="center")
 
         #importing languages for translator
         languages=googletrans.LANGUAGES
