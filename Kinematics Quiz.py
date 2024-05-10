@@ -49,7 +49,7 @@ def main_GUI():
         root_settings=customtkinter.CTk()
         root_settings.title(settings_text)
         root_settings.geometry("300x400") 
-        bg_image2=Image.open("Background image.png")
+        bg_image2=Image.open("GitHub\Kinematics-Quiz\Images\Settings background.png")
         bg_image_copy2=bg_image2.copy()
         bg_photoimage2=ImageTk.PhotoImage(bg_image_copy2)
         bg_settings=customtkinter.CTkLabel(root_settings,image=bg_photoimage2)
@@ -93,7 +93,7 @@ def main_GUI():
 
     #defining background
     global bg_image, bg_photoimage, bg, frame
-    bg_image=Image.open("Background image.png")
+    bg_image=Image.open("GitHub\Kinematics-Quiz\Images\Background image.png")
     bg_image_copy=bg_image.copy()
     bg_photoimage=ImageTk.PhotoImage(bg_image_copy)
     bg=customtkinter.CTkLabel(root,image=bg_photoimage)
@@ -110,7 +110,7 @@ def main_GUI():
     start_button.place(relx=0.5,rely=0.4,anchor='center')
 
     #creating image for settings button
-    settings_image=Image.open("settings symbol.png")
+    settings_image=Image.open("GitHub\Kinematics-Quiz\Images\settings image.png")
     settings_image_copy=settings_image.copy()
     settings_image=settings_image_copy.resize((50,50))
 
