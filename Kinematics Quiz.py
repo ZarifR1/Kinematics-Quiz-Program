@@ -1,6 +1,7 @@
 #importing essential packages
 import tkinter as tk
 from tkinter import ttk
+from tkinter import Toplevel
 import googletrans
 import customtkinter
 from PIL import Image, ImageTk
@@ -38,52 +39,72 @@ def main_GUI():
 
    #subprogram for settings menu
     def settings():
-        def scaler_settings():
-            pass
+        
+        #rescales settings menu
+        def scaler_settings(current):
+            #sets scalar multiples for all screen elements
+            new_height=current.height
+            new_width=current.width
+            y_multi=new_height/1080
+            x_multi=new_width/1920
+            avg_size=(x_multi+y_multi)/2
+        
+            #resizing GUI background
+            bg_image2=bg_image_copy2.resize((new_width,new_height))
+            bg_photoimage2=ImageTk.PhotoImage(bg_image2)
+            bg_settings.configure(image=bg_photoimage2)
+            bg_settings.image=bg_photoimage2
+
+            #resizing settings elements
+            frame_settings.configure(width=new_width*0.6,height=new_height*0.6)
+            translate_title.configure(font=("ariel",48*avg_size),width=100*x_multi,height=60*y_multi)
+            translated_combo.configure(width=700*x_multi,height=60*y_multi)
+            translate_button.configure(font=("ariel",48*avg_size),width=100*x_multi,height=90*y_multi)
+            switch_theme_button.configure(font=("ariel",48*avg_size),width=100*x_multi,height=60*y_multi)
+            exit_settings.configure(font=("ariel",48*avg_size),height=90*y_multi,width=280*x_multi)
         
         #subprogram for closing settings
         def close_settings():
             root_settings.destroy()
         
         #defining background for settings
-        root_settings=customtkinter.CTk()
+        root_settings=Toplevel(bg=bg_colour)
         root_settings.title(settings_text)
         root_settings.geometry("300x400") 
-        bg_image2=Image.open("GitHub\Kinematics-Quiz\Images\Settings background.png")
+        bg_image2=Image.open("Images\Settings background.png")
         bg_image_copy2=bg_image2.copy()
         bg_photoimage2=ImageTk.PhotoImage(bg_image_copy2)
         bg_settings=customtkinter.CTkLabel(root_settings,image=bg_photoimage2)
-       # bg_settings.bind("<Configure>",scaler_settings)
-       # bg_settings.pack(fill='both',expand=True)
-       # frame_settings=customtkinter.CTkFrame(master=root_settings,fg_color=fg_colour,bg_color=bg_colour,width=300,height=400,corner_radius=30)
-        #frame_settings.place(relx=0.5,rely=0.5,in_=bg_settings, anchor="center")
+        bg_settings.bind("<Configure>",scaler_settings)
+        bg_settings.pack(fill='both',expand=True)
+        frame_settings=customtkinter.CTkFrame(master=root_settings,fg_color=fg_colour,bg_color=bg_colour,width=300,height=400,corner_radius=30)
+        frame_settings.place(relx=0.5,rely=0.5,in_=bg_settings, anchor="center")
 
         #importing languages for translator
         languages=googletrans.LANGUAGES
         language_list=list(languages.values())
 
         #defining settings menu elements
-        translate_title=customtkinter.CTkLabel(root_settings,text=translator_text,font=("ariel",18),bg_color=bg_colour, corner_radius=6, width=150)
+        translate_title=customtkinter.CTkLabel(root_settings,text=translator_text,font=("ariel",18),fg_color=fg_colour, height=20,width=100)
         translate_title.place(relx=0.5,rely=0.1,anchor='center')
 
-        translated_combo=customtkinter.CTkComboBox(root_settings, width=150, values=language_list, bg_color=bg_colour)
+        translated_combo=customtkinter.CTkComboBox(root_settings, width=150, values=language_list, bg_color=bg_colour, height=20)
         translated_combo.set("english")
         translated_combo.place(relx=0.5,rely=0.2,anchor='center')
 
-        translate_button=customtkinter.CTkButton(root_settings,text=translate_text,font=("ariel",14),fg_color=fg_colour,bg_color=bg_colour,  corner_radius=6, width=100)
-        translate_button.place(relx=0.5,rely=0.3,anchor='center')
+        translate_button=customtkinter.CTkButton(root_settings,text=translate_text,font=("ariel",14),bg_color=bg_colour,corner_radius=6, width=100, height=30)
+        translate_button.place(relx=0.5,rely=0.35,anchor='center')
 
-        switch_theme_button=customtkinter.CTkRadioButton(root_settings,text=theme_text,font=("ariel",18),fg_color=fg_colour,bg_color=bg_colour,  corner_radius=6, width=100)
+        switch_theme_button=customtkinter.CTkRadioButton(root_settings,text=theme_text,font=("ariel",18),fg_color=fg_colour, corner_radius=6, width=100, height=20)
         switch_theme_button.place(relx=0.5,rely=0.5,anchor='center')
 
-        exit_settings=customtkinter.CTkButton(root_settings,text=exit_text,font=("ariel",16),bg_color=bg_colour, corner_radius=6, width=80, command=close_settings)
+        exit_settings=customtkinter.CTkButton(root_settings,text=exit_text,font=("ariel",16),bg_color=bg_colour, corner_radius=6, width=80, height=30, command=close_settings)
         exit_settings.place(relx=0.5,rely=0.7,anchor='center')
 
         root_settings.mainloop()
 
     #subprogram for exit button
     def close_main():
-        root.destroy()
         root.destroy()
         
     #defining GUI
@@ -93,7 +114,7 @@ def main_GUI():
 
     #defining background
     global bg_image, bg_photoimage, bg, frame
-    bg_image=Image.open("GitHub\Kinematics-Quiz\Images\Background image.png")
+    bg_image=Image.open("Images\Background image.png")
     bg_image_copy=bg_image.copy()
     bg_photoimage=ImageTk.PhotoImage(bg_image_copy)
     bg=customtkinter.CTkLabel(root,image=bg_photoimage)
@@ -110,7 +131,7 @@ def main_GUI():
     start_button.place(relx=0.5,rely=0.4,anchor='center')
 
     #creating image for settings button
-    settings_image=Image.open("GitHub\Kinematics-Quiz\Images\settings image.png")
+    settings_image=Image.open("Images\settings symbol.png")
     settings_image_copy=settings_image.copy()
     settings_image=settings_image_copy.resize((50,50))
 
