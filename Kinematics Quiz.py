@@ -34,8 +34,46 @@ def main_GUI():
         settings_button.configure(image=ImageTk.PhotoImage(settings_image),height=30*y_multi,width=50*x_multi)
         exit_main.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
 
+    
+    #subprogram for starting quiz
+    def start():
+        
+        #clearing GUI elements for quiz
+        title.destroy()               
+        start_button.destroy()
 
+        # Setting up quiz questions to be displayed
+        questions = ["Which of the following is the equation for average velocity (v is average velocity).", "If an object is acceleration uniformly, how would its displacement time graph appear?","If a ball is thrown vertically up, what is its instantaneous velocity when it reaches its max height?","What does the gradient of a velocity time graph represent?"]
+        A=["A) v=s/t","Straight line with positive gradient","Not enough information","acceleration"]
+        B=["B) v=u+at","Straight line with negative gradient","Less than initial velocity but not zero","displacement"]
+        C=["C) v=u+a/t","Curve with positive gradient","More than initial velocity","distance"]
+        D=["D) v=st","Curve with negative gradient","Zero","Force"]
+        i=0
 
+        if i < len(questions):
+            proceed=False
+            
+            #shows questions on main GUI
+            question=customtkinter.CTkLabel(root,text=questions[i],font=("ariel",24),fg_color=fg_colour)
+            question.place(relx=0.5,rely=0.2,anchor='center')
+
+            #next button for moving to next question
+            next_button=customtkinter.CTkButton(root,text=next_text,font=("ariel",24))
+            next_button.place(relx=0.5,rely=0.85,anchor='center')
+
+            #next button for moving to next question
+            next_button=customtkinter.CTkButton(root,text=next_text,font=("ariel",24))
+            next_button.place(relx=0.5,rely=0.85,anchor='center')
+
+            if i < len(A):
+                option_A=customtkinter.CTkButton(root,text=A[i],font=('ariel',24))
+                option_A.place(relx=0.3,rely=0.4,anchor='center')
+                option_B=customtkinter.CTkButton(root,text=B[i],font=('ariel',24))
+                option_B.place(relx=0.3,rely=0.5,anchor='center')
+                option_C=customtkinter.CTkButton(root,text=C[i],font=('ariel',24))
+                option_C.place(relx=0.3,rely=0.6,anchor='center')
+                option_D=customtkinter.CTkButton(root,text=D[i],font=('ariel',24))
+                option_D.place(relx=0.3,rely=0.7,anchor='center')
 
    #subprogram for settings menu
     def settings():
@@ -127,7 +165,7 @@ def main_GUI():
     title=customtkinter.CTkLabel(root,text=title_text,font=("ariel",30),fg_color=fg_colour,height=20,width=150)
     title.place(relx=0.5,rely=0.2,anchor='center')
 
-    start_button=customtkinter.CTkButton(root,text=start_text,font=("ariel",24), width=150)
+    start_button=customtkinter.CTkButton(root,text=start_text,font=("ariel",24), width=150, command=start)
     start_button.place(relx=0.5,rely=0.4,anchor='center')
 
     #creating image for settings button
@@ -151,6 +189,7 @@ exit_text="Exit"
 translator_text="Translator"
 translate_text="Translate"
 theme_text="Switch theme"
+next_text="Next"
 main_theme="dark"
 current_language="english"
 
