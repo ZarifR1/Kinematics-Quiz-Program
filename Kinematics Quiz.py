@@ -34,30 +34,85 @@ def main_GUI():
         settings_button.configure(image=ImageTk.PhotoImage(settings_image),height=30*y_multi,width=50*x_multi)
         exit_main.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
     
-
     
     #subprogram for starting quiz
     def start(position):
-        def answer_store(answer):
-           if position < len(A):
-               user_mcq_answers.append(answer)
-           if position > 4:
-               user_entry_answers.append(answer)
-        
+
+        #subprogram for calculating final score
+        def answer_check():
+             mcq_solutions=["A","C","D","A"]
+             entry_solutions=[20,330,2.5,0.42]
+             score=0
+             for i in range(0,len(mcq_solutions)):
+                  if user_mcq_answers[i]==mcq_solutions[i]:
+                       score+=1
+                  if user_entry_answers[i]==entry_solutions[i]:
+                       score+=1
+
+             score_title=customtkinter.CTkLabel(root,text=score_text,font=('ariel',24),bg_color=bg_colour,fg_color=fg_colour)
+             score_title.place(relx=0.5,rely=0.2,anchor='center')
+            
+             final_score=customtkinter.CTkLabel(root,text=(score,"/8"),font=('ariel',24),bg_color=bg_colour,fg_color=fg_colour)
+             final_score.place(relx=0.5,rely=0.5,anchor='center')
+
+
+
+
+        #subprogram to detect user input into the entry
+        def entry_detection(event):
+            next_button.configure(state="normal")            
+
+
+        #subprogram for selecting user's mcq answers
+        def answer_select(answer):
+            if position < len(A):
+                if answer=="A":
+                        option_A.configure(state="disabled")
+                        option_B.configure(state="normal")
+                        option_C.configure(state="normal")
+                        option_D.configure(state="normal")
+                if answer=="B":
+                        option_A.configure(state="normal")
+                        option_B.configure(state="disabled")
+                        option_C.configure(state="normal")
+                        option_D.configure(state="normal")
+                if answer=="C":
+                        option_A.configure(state="normal")
+                        option_B.configure(state="normal")
+                        option_C.configure(state="disabled")
+                        option_D.configure(state="normal")
+                if answer=="D":
+                        option_A.configure(state="normal")
+                        option_B.configure(state="normal")
+                        option_C.configure(state="normal")
+                        option_D.configure(state="disabled")
+                next_button.configure(state="normal")
+                          
         
                
 
-        if position != 0:
-            global question,option_A,option_B,option_C,option_D
+        if position != 0 and position < 5:
+            global question,next_button,option_A,option_B,option_C,option_D
+            if option_A._state == 'disabled':
+                 user_mcq_answers.append("A")
+            if option_B._state == 'disabled':
+                 user_mcq_answers.append("B")
+            if option_C._state == 'disabled':
+                 user_mcq_answers.append("C")
+            if option_D._state == 'disabled':
+                 user_mcq_answers.append("D")
             question.destroy()
             option_A.destroy()
             option_B.destroy()
             option_C.destroy()
             option_D.destroy()
+            next_button.destroy()
         if position > 4:
             global input_entry
+            question.destroy()
+            user_entry_answers.append(float(input_entry.get()))
             input_entry.destroy()
-            
+            next_button.destroy()
         
         #clearing GUI elements for quiz
         title.destroy()               
@@ -65,10 +120,10 @@ def main_GUI():
 
         # Setting up quiz questions to be displayed
         questions = ["Which of the following is the equation for average velocity (v is average velocity).", "If an object is acceleration uniformly, how would its displacement time graph appear?","If a ball is thrown vertically up, what is its instantaneous velocity when it reaches its max height?","What does the gradient of a velocity time graph represent?","A car stopped from 200 m/s over a distance of 1 km. What is the magnitude of acceleration that the car experienced over this time?","An object moves at a constant velocity of 108 km/h.. What is its displacement over 11s?"," A train accelerates from 10 m/s to 60 m/s in 20 s. What is the acceleration of the train?","A ball is dropped from a height of 5 m/s at a speed of 10 m/s. How long does it take to hit the ground to 2 decimal places?"]
-        A=["A) v=s/t","Straight line with positive gradient","Not enough information","acceleration"]
-        B=["B) v=u+at","Straight line with negative gradient","Less than initial velocity but not zero","displacement"]
-        C=["C) v=u+a/t","Curve with positive gradient","More than initial velocity","distance"]
-        D=["D) v=st","Curve with negative gradient","Zero","Force"]
+        A=["v=s/t","Straight line with positive gradient","Not enough information","acceleration"]
+        B=["v=u+at","Straight line with negative gradient","Less than initial velocity but not zero","displacement"]
+        C=["v=u+a/t","Curve with positive gradient","More than initial velocity","distance"]
+        D=["v=st","Curve with negative gradient","Zero","Force"]
         
 
         if position < len(questions):
@@ -78,23 +133,30 @@ def main_GUI():
             question.place(relx=0.5,rely=0.2,anchor='center')
 
             #next button for moving to next question
-            next_button=customtkinter.CTkButton(root,text=next_text,font=("ariel",24),command=lambda:start(position+1))
+            next_button=customtkinter.CTkButton(root,text=next_text,font=("ariel",24),state="disabled",command=lambda:start(position+1))
             next_button.place(relx=0.5,rely=0.85,anchor='center')
 
 
             if position < len(A):
-                option_A=customtkinter.CTkButton(root,text=A[position],font=('ariel',24),command=lambda:answer_store("A"))
+                option_A=customtkinter.CTkButton(root,text=("A)",A[position]),state="normal",font=('ariel',24),command=lambda:answer_select("A"),width=50)
                 option_A.place(relx=0.3,rely=0.4,anchor='center')
-                option_B=customtkinter.CTkButton(root,text=B[position],font=('ariel',24))
+                option_B=customtkinter.CTkButton(root,text=("B)",B[position]),state="normal",font=('ariel',24),command=lambda:answer_select("B"))
                 option_B.place(relx=0.3,rely=0.5,anchor='center')
-                option_C=customtkinter.CTkButton(root,text=C[position],font=('ariel',24))
+                option_C=customtkinter.CTkButton(root,text=("C)",C[position]),state="normal",font=('ariel',24),command=lambda:answer_select("C"))
                 option_C.place(relx=0.3,rely=0.6,anchor='center')
-                option_D=customtkinter.CTkButton(root,text=D[position],font=('ariel',24))
+                option_D=customtkinter.CTkButton(root,text=("D)",D[position]),state="normal",font=('ariel',24),command=lambda:answer_select("D"))
                 option_D.place(relx=0.3,rely=0.7,anchor='center')
             else:
                 input_entry=customtkinter.CTkEntry(master=root,font=('ariel',24))
+                input_entry.bind("<KeyRelease>",entry_detection)
                 input_entry.place(relx=0.5,rely=0.6,anchor='center')
-
+            
+        else:
+             answer_check()
+    
+        
+                
+            
             
    #subprogram for settings menu
     def settings():
@@ -212,8 +274,8 @@ translate_text="Translate"
 theme_text="Switch theme"
 next_text="next"
 main_theme="dark"
+score_text="Score"
 current_language="english"
-score=0
 user_mcq_answers=[]
 user_entry_answers=[]
 
