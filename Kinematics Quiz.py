@@ -33,42 +33,57 @@ def main_GUI():
         settings_image=settings_image_copy.resize((int(70*avg_size),int(70*avg_size)))
         settings_button.configure(image=ImageTk.PhotoImage(settings_image),height=30*y_multi,width=50*x_multi)
         exit_main.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
+    
 
     
     #subprogram for starting quiz
     def start(position):
+        def answer_store(answer):
+           if position < len(A):
+               user_mcq_answers.append(answer)
+           if position > 4:
+               user_entry_answers.append(answer)
+        
+        
+               
 
         if position != 0:
-                global question,option_A,option_B,option_C,option_D
-                question.destroy()
-                option_A.destroy()
-                option_B.destroy()
-                option_C.destroy()
-                option_D.destroy()
+            global question,option_A,option_B,option_C,option_D
+            question.destroy()
+            option_A.destroy()
+            option_B.destroy()
+            option_C.destroy()
+            option_D.destroy()
+        if position > 4:
+            global input_entry
+            input_entry.destroy()
+            
         
         #clearing GUI elements for quiz
         title.destroy()               
         start_button.destroy()
 
         # Setting up quiz questions to be displayed
-        questions = ["Which of the following is the equation for average velocity (v is average velocity).", "If an object is acceleration uniformly, how would its displacement time graph appear?","If a ball is thrown vertically up, what is its instantaneous velocity when it reaches its max height?","What does the gradient of a velocity time graph represent?"]
+        questions = ["Which of the following is the equation for average velocity (v is average velocity).", "If an object is acceleration uniformly, how would its displacement time graph appear?","If a ball is thrown vertically up, what is its instantaneous velocity when it reaches its max height?","What does the gradient of a velocity time graph represent?","A car stopped from 200 m/s over a distance of 1 km. What is the magnitude of acceleration that the car experienced over this time?","An object moves at a constant velocity of 108 km/h.. What is its displacement over 11s?"," A train accelerates from 10 m/s to 60 m/s in 20 s. What is the acceleration of the train?","A ball is dropped from a height of 5 m/s at a speed of 10 m/s. How long does it take to hit the ground to 2 decimal places?"]
         A=["A) v=s/t","Straight line with positive gradient","Not enough information","acceleration"]
         B=["B) v=u+at","Straight line with negative gradient","Less than initial velocity but not zero","displacement"]
         C=["C) v=u+a/t","Curve with positive gradient","More than initial velocity","distance"]
         D=["D) v=st","Curve with negative gradient","Zero","Force"]
+        
 
         if position < len(questions):
             
             #shows questions on main GUI
-            question=customtkinter.CTkLabel(root,text=questions[position],font=("ariel",24),fg_color=fg_colour)
+            question=customtkinter.CTkLabel(root,text=questions[position],font=("ariel",24),fg_color=fg_colour,wraplength=root.winfo_width()*0.5,height=40,width=250)
             question.place(relx=0.5,rely=0.2,anchor='center')
 
             #next button for moving to next question
             next_button=customtkinter.CTkButton(root,text=next_text,font=("ariel",24),command=lambda:start(position+1))
             next_button.place(relx=0.5,rely=0.85,anchor='center')
 
+
             if position < len(A):
-                option_A=customtkinter.CTkButton(root,text=A[position],font=('ariel',24))
+                option_A=customtkinter.CTkButton(root,text=A[position],font=('ariel',24),command=lambda:answer_store("A"))
                 option_A.place(relx=0.3,rely=0.4,anchor='center')
                 option_B=customtkinter.CTkButton(root,text=B[position],font=('ariel',24))
                 option_B.place(relx=0.3,rely=0.5,anchor='center')
@@ -76,14 +91,11 @@ def main_GUI():
                 option_C.place(relx=0.3,rely=0.6,anchor='center')
                 option_D=customtkinter.CTkButton(root,text=D[position],font=('ariel',24))
                 option_D.place(relx=0.3,rely=0.7,anchor='center')
-            
-
-
-            
-
+            else:
+                input_entry=customtkinter.CTkEntry(master=root,font=('ariel',24))
+                input_entry.place(relx=0.5,rely=0.6,anchor='center')
 
             
-
    #subprogram for settings menu
     def settings():
         
@@ -190,7 +202,7 @@ def main_GUI():
 
     root.mainloop()
 
-#defining text variables, theme and language
+#defining text variables, theme and language and score
 title_text="Kinematics Quiz"
 start_text="Start Quiz"
 settings_text="Settings"
@@ -198,9 +210,12 @@ exit_text="Exit"
 translator_text="Translator"
 translate_text="Translate"
 theme_text="Switch theme"
-next_text="Next"
+next_text="next"
 main_theme="dark"
 current_language="english"
+score=0
+user_mcq_answers=[]
+user_entry_answers=[]
 
 #information to change theme
 if main_theme == "light":
