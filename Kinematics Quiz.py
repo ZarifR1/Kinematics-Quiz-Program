@@ -36,7 +36,15 @@ def main_GUI():
 
     
     #subprogram for starting quiz
-    def start():
+    def start(position):
+
+        if position != 0:
+                global question,option_A,option_B,option_C,option_D
+                question.destroy()
+                option_A.destroy()
+                option_B.destroy()
+                option_C.destroy()
+                option_D.destroy()
         
         #clearing GUI elements for quiz
         title.destroy()               
@@ -48,32 +56,33 @@ def main_GUI():
         B=["B) v=u+at","Straight line with negative gradient","Less than initial velocity but not zero","displacement"]
         C=["C) v=u+a/t","Curve with positive gradient","More than initial velocity","distance"]
         D=["D) v=st","Curve with negative gradient","Zero","Force"]
-        i=0
 
-        if i < len(questions):
-            proceed=False
+        if position < len(questions):
             
             #shows questions on main GUI
-            question=customtkinter.CTkLabel(root,text=questions[i],font=("ariel",24),fg_color=fg_colour)
+            question=customtkinter.CTkLabel(root,text=questions[position],font=("ariel",24),fg_color=fg_colour)
             question.place(relx=0.5,rely=0.2,anchor='center')
 
             #next button for moving to next question
-            next_button=customtkinter.CTkButton(root,text=next_text,font=("ariel",24))
+            next_button=customtkinter.CTkButton(root,text=next_text,font=("ariel",24),command=lambda:start(position+1))
             next_button.place(relx=0.5,rely=0.85,anchor='center')
 
-            #next button for moving to next question
-            next_button=customtkinter.CTkButton(root,text=next_text,font=("ariel",24))
-            next_button.place(relx=0.5,rely=0.85,anchor='center')
-
-            if i < len(A):
-                option_A=customtkinter.CTkButton(root,text=A[i],font=('ariel',24))
+            if position < len(A):
+                option_A=customtkinter.CTkButton(root,text=A[position],font=('ariel',24))
                 option_A.place(relx=0.3,rely=0.4,anchor='center')
-                option_B=customtkinter.CTkButton(root,text=B[i],font=('ariel',24))
+                option_B=customtkinter.CTkButton(root,text=B[position],font=('ariel',24))
                 option_B.place(relx=0.3,rely=0.5,anchor='center')
-                option_C=customtkinter.CTkButton(root,text=C[i],font=('ariel',24))
+                option_C=customtkinter.CTkButton(root,text=C[position],font=('ariel',24))
                 option_C.place(relx=0.3,rely=0.6,anchor='center')
-                option_D=customtkinter.CTkButton(root,text=D[i],font=('ariel',24))
+                option_D=customtkinter.CTkButton(root,text=D[position],font=('ariel',24))
                 option_D.place(relx=0.3,rely=0.7,anchor='center')
+            
+
+
+            
+
+
+            
 
    #subprogram for settings menu
     def settings():
@@ -165,7 +174,7 @@ def main_GUI():
     title=customtkinter.CTkLabel(root,text=title_text,font=("ariel",30),fg_color=fg_colour,height=20,width=150)
     title.place(relx=0.5,rely=0.2,anchor='center')
 
-    start_button=customtkinter.CTkButton(root,text=start_text,font=("ariel",24), width=150, command=start)
+    start_button=customtkinter.CTkButton(root,text=start_text,font=("ariel",24), width=150, command=lambda:start(0))
     start_button.place(relx=0.5,rely=0.4,anchor='center')
 
     #creating image for settings button
