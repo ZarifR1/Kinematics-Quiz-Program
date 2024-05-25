@@ -1,7 +1,6 @@
 #importing essential packages
 import tkinter as tk
-from tkinter import ttk
-from tkinter import Toplevel
+from tkinter import Toplevel, ttk, messagebox
 import googletrans
 import customtkinter
 from PIL import Image, ImageTk
@@ -12,7 +11,7 @@ def main_GUI():
     #subprogram for rescaling GUI
     def scaler(current):
         #sets scalar multiples for all screen elements
-        global avg_size, new_height, new_width
+        global avg_size, new_height, new_width, x_multi, y_multi,avg_size
         new_height=current.height
         new_width=current.width
         y_multi=new_height/1080
@@ -34,10 +33,12 @@ def main_GUI():
         settings_image=settings_image_copy.resize((int(70*avg_size),int(70*avg_size)))
         settings_button.configure(image=ImageTk.PhotoImage(settings_image),height=30*y_multi,width=50*x_multi)
         exit_main.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
+        
+
+        
     
     #subprogram for starting quiz
     def start(position):
-
 
         def scaler_quiz(current):
             #sets scalar multiples for all screen elements
@@ -49,32 +50,33 @@ def main_GUI():
 
         
             #resizing GUI background
-            bg_image=bg_image_copy.resize((new_width,new_height))
-            bg_photoimage=ImageTk.PhotoImage(bg_image)
-            bg.configure(image=bg_photoimage)
-            bg.image=bg_photoimage
+            bg_image3=bg_image_copy.resize((new_width,new_height))
+            bg_photoimage3=ImageTk.PhotoImage(bg_image3)
+            bg.configure(image=bg_photoimage3)
+            bg.image=bg_photoimage3
 
             #resizing main_GUI elements
             frame.configure(width=new_width*0.6,height=new_height*0.6)
-            settings_image=settings_image_copy.resize((int(70*avg_size),int(70*avg_size)))
-            settings_button.configure(image=ImageTk.PhotoImage(settings_image),height=30*y_multi,width=50*x_multi)
-            exit_main.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
-            question.configure(font=("ariel",36*avg_size),height=50*y_multi, width=200*x_multi)
-            if position < len(A):
-                option_A.configure(font=("ariel",36*avg_size),height=20*y_multi, width=150*x_multi)
-                option_B.configure(font=("ariel",36*avg_size),height=20*y_multi, width=150*x_multi)
-                option_C.configure(font=("ariel",36*avg_size),height=20*y_multi, width=150*x_multi)
-                option_D.configure(font=("ariel",36*avg_size),height=20*y_multi, width=150*x_multi)
-            if position > len(A) and position < len(questions):
-                input_entry.configure(height=20*y_multi, width=100*x_multi)
-            if position == 8:
-                score_title.configure(font=("ariel",36*avg_size),height=20*y_multi, width=100*x_multi)
-                final_score.configure(font=("ariel",36*avg_size),height=20*y_multi, width=100*x_multi)
-                restart_button.configure(font=("ariel",36*avg_size),height=20*y_multi, width=100*x_multi)
-            next_button.configure(font=("ariel",36*avg_size),height=40*y_multi,width=80*x_multi)
-
-
-    
+            try:
+                question.configure(font=("ariel",36*avg_size), height=150*y_multi,width=new_width*0.3)
+                next_button.configure(font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
+                settings_image=settings_image_copy.resize((int(70*avg_size),int(70*avg_size)))
+                settings_button.configure(image=ImageTk.PhotoImage(settings_image),height=30*y_multi,width=50*x_multi)
+                exit_main.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
+                if position < 5:
+                    option_A.configure(font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
+                    option_B.configure(font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
+                    option_C.configure(font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
+                    option_D.configure(font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
+                if position > 4 and entry_exists==True:
+                    input_entry.configure(font=("ariel",36*avg_size), height=80*y_multi,width=200*x_multi)
+                if position == 8:
+                    score_title.configure(font=("ariel",50*avg_size), height=50*y_multi,width=180*x_multi)
+                    final_score.configure(font=("ariel",50*avg_size), height=50*y_multi,width=180*x_multi)
+                    restart_button.configure(font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
+                
+            except Exception as e:
+                pass
 
         #clearing GUI elements for quiz
         if position == 0:
@@ -101,13 +103,13 @@ def main_GUI():
                        score+=1
 
              global score_title,final_score,restart_button
-             score_title=customtkinter.CTkLabel(root,text=score_text,font=('ariel',24),bg_color=bg_colour,fg_color=fg_colour)
+             score_title=customtkinter.CTkLabel(root,text=score_text,bg_color=bg_colour,fg_color=fg_colour, font=("ariel",50*avg_size), height=50*y_multi,width=180*x_multi)
              score_title.place(relx=0.5,rely=0.2,anchor='center')
             
-             final_score=customtkinter.CTkLabel(root,text=(score,"/8"),font=('ariel',24),bg_color=bg_colour,fg_color=fg_colour)
+             final_score=customtkinter.CTkLabel(root,text=(score,"/8"),bg_color=bg_colour,fg_color=fg_colour, font=("ariel",50*avg_size), height=50*y_multi,width=180*x_multi)
              final_score.place(relx=0.5,rely=0.5,anchor='center')
-             print(position)
-             restart_button=customtkinter.CTkButton(root,text=restart_text,font=('ariel',24),bg_color=bg_colour,command=restart)
+
+             restart_button=customtkinter.CTkButton(root,text=restart_text,bg_color=bg_colour,command=restart, font=("ariel",36*avg_size), height=60*y_multi,width=200*x_multi)
              restart_button.place(relx=0.5,rely=0.85,anchor='center')
 
 
@@ -149,9 +151,10 @@ def main_GUI():
                           
         
                
-
+        
         if position != 0 and position < 5:
             global question,next_button,option_A,option_B,option_C,option_D
+            question.destroy()
             if option_A._state == 'disabled':
                  user_mcq_answers.append("A")
             if option_B._state == 'disabled':
@@ -160,19 +163,18 @@ def main_GUI():
                  user_mcq_answers.append("C")
             if option_D._state == 'disabled':
                  user_mcq_answers.append("D")
-            question.destroy()
             option_A.destroy()
             option_B.destroy()
             option_C.destroy()
             option_D.destroy()
             next_button.destroy()
         if position > 4:
-            global input_entry
+            global input_entry,entry_exists
             question.destroy()
             user_entry_answers.append(float(input_entry.get()))
             input_entry.destroy()
             next_button.destroy()
-        
+            entry_exists=False
 
         # Setting up quiz questions to be displayed
         questions = ["Which of the following is the equation for average velocity (v is average velocity).", "If an object is acceleration uniformly, how would its displacement time graph appear?","If a ball is thrown vertically up, what is its instantaneous velocity when it reaches its max height?","What does the gradient of a velocity time graph represent?","A car stopped from 200 m/s over a distance of 1 km. What is the magnitude of acceleration that the car experienced over this time?","An object moves at a constant velocity of 108 km/h. What is its displacement over 11s?"," A train accelerates from 10 m/s to 60 m/s in 20 s. What is the acceleration of the train?","A ball is dropped from a height of 5 m/s at a speed of 10 m/s. How long does it take to hit the ground to 2 decimal places?"]
@@ -185,40 +187,41 @@ def main_GUI():
         if position < len(questions):
             
             #shows questions on main GUI
-            question=customtkinter.CTkLabel(root,text=questions[position],font=("ariel",24),fg_color=fg_colour,wraplength=root.winfo_width()*0.5)
+            question=customtkinter.CTkLabel(root,text=questions[position],fg_color=fg_colour,wraplength=root.winfo_width()*0.5,font=("ariel",36*avg_size), height=150*y_multi,width=new_width*0.3)
             question.place(relx=0.5,rely=0.2,anchor='center')
 
             #next button for moving to next question
-            next_button=customtkinter.CTkButton(root,text=next_text,font=("ariel",24),bg_color=bg_colour,state="disabled",command=lambda:start(position+1))
+            next_button=customtkinter.CTkButton(root,text=next_text,bg_color=bg_colour,state="disabled",command=lambda:start(position+1),font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
             next_button.place(relx=0.5,rely=0.85,anchor='center')
 
 
             if position < len(A):
 
                 option_A_text="A) "+A[position]
-                option_A=customtkinter.CTkButton(root,text="",state="normal",font=('ariel',24),command=lambda:answer_select("A"))
+                option_A=customtkinter.CTkButton(root,text="",state="normal",command=lambda:answer_select("A"), font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
                 option_A.configure(text=option_A_text)
                 option_A.place(relx=0.35,rely=0.4,anchor='center')
 
                 option_B_text="B) "+B[position]
-                option_B=customtkinter.CTkButton(root,text="",state="normal",font=('ariel',24),command=lambda:answer_select("B"))
+                option_B=customtkinter.CTkButton(root,text="",state="normal",command=lambda:answer_select("B"), font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
                 option_B.configure(text=option_B_text)
                 option_B.place(relx=0.35,rely=0.5,anchor='center')
 
                 option_C_text="C) "+C[position]
-                option_C=customtkinter.CTkButton(root,text="",state="normal",font=('ariel',24),command=lambda:answer_select("C"))
+                option_C=customtkinter.CTkButton(root,text="",state="normal",command=lambda:answer_select("C"), font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
                 option_C.configure(text=option_C_text)
                 option_C.place(relx=0.35,rely=0.6,anchor='center')
 
                 option_D_text="D) "+D[position]
-                option_D=customtkinter.CTkButton(root,text="",state="normal",font=('ariel',24),command=lambda:answer_select("D"))
+                option_D=customtkinter.CTkButton(root,text="",state="normal",command=lambda:answer_select("D"), font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
                 option_D.configure(text=option_D_text)
                 option_D.place(relx=0.35,rely=0.7,anchor='center')
 
             else:
-                input_entry=customtkinter.CTkEntry(master=root,font=('ariel',24))
+                input_entry=customtkinter.CTkEntry(master=root,font=('ariel',36*avg_size), height=60*y_multi,width=200*x_multi)
                 input_entry.bind("<KeyRelease>",entry_detection)
                 input_entry.place(relx=0.5,rely=0.6,anchor='center')
+                entry_exists=True
             
         else:
              answer_check()

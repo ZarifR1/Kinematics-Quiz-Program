@@ -1,72 +1,10 @@
-#importing essential packages
-import tkinter as tk
-from tkinter import ttk
-import googletrans
-import customtkinter
-from PIL import Image, ImageTk
+# Setting up quiz questions to be displayed
+questions = ["Which of the following is the equation for average velocity (v is average velocity).", "If an object is acceleration uniformly, how would its displacement time graph appear?","If a ball is thrown vertically up, what is its instantaneous velocity when it reaches its max height?","What does the gradient of a velocity time graph represent?","A car stopped from 200 m/s over a distance of 1 km. What is the magnitude of acceleration that the car experienced over this time?","An object moves at a constant velocity of 108 km/h. What is its displacement over 11s?"," A train accelerates from 10 m/s to 60 m/s in 20 s. What is the acceleration of the train?","A ball is dropped from a height of 5 m/s at a speed of 10 m/s. How long does it take to hit the ground to 2 decimal places?"]
+A=["v=s/t","Straight line with positive gradient","Not enough information","acceleration"]
+B=["v=u+at","Straight line with negative gradient","Less than initial velocity but not zero","displacement"]
+C=["v=u+a/t","Curve with positive gradient","More than initial velocity","distance"]
+D=["v=st","Curve with negative gradient","Zero","Force"]
 
-#defining text variables, theme and language
-title_text="Kinematics Quiz"
-start_text="Start Quiz"
-settings_text="Settings"
-exit_text="Exit"
-translator_text="Translator"
-translate_text="Translate"
-theme_text="Switch theme"
-main_theme="dark"
-current_language="english"
-
-#information to change theme
-if main_theme == "light":
-    theme_accent = "gray92"                                                                        
-    bg_colour = "grey86"
-    fg_colour = "grey70"
-    text_colour = "black"
-if main_theme == "dark":
-    theme_accent = "gray14"
-    bg_colour = "grey17"
-    fg_colour = "#363636"
-    text_colour = "white"
-
-def scaler_settings():
-    pass
-
-#subprogram for closing settings
-def close_settings():
-    root_settings.destroy()
-
-#defining background for settings
-root_settings=customtkinter.CTk()
-root_settings.title(settings_text)
-root_settings.geometry("300x400") 
-bg_image2=Image.open("Images\Background image.png")
-bg_image_copy2=bg_image2.copy()
-bg_photoimage2=ImageTk.PhotoImage(bg_image_copy2)
-bg_settings=customtkinter.CTkLabel(root_settings,image=bg_photoimage2)
-bg_settings.bind("<Configure>",scaler_settings)
-bg_settings.pack(fill='both',expand=True)
-frame_settings=customtkinter.CTkFrame(master=root_settings,fg_color=fg_colour,bg_color=bg_colour,width=300,height=400,corner_radius=30)
-frame_settings.place(relx=0.5,rely=0.5,in_=bg_settings, anchor="center")
-
-#importing languages for translator
-languages=googletrans.LANGUAGES
-language_list=list(languages.values())
-
-#defining settings menu elements
-translate_title=customtkinter.CTkLabel(root_settings,text=translator_text,font=("ariel",18),bg_color=bg_colour, corner_radius=6, width=150)
-translate_title.place(relx=0.5,rely=0.1,anchor='center')
-
-translated_combo=customtkinter.CTkComboBox(root_settings, width=150, values=language_list, bg_color=bg_colour)
-translated_combo.set("english")
-translated_combo.place(relx=0.5,rely=0.2,anchor='center')
-
-translate_button=customtkinter.CTkButton(root_settings,text=translate_text,font=("ariel",14),fg_color=fg_colour,bg_color=bg_colour,  corner_radius=6, width=100)
-translate_button.place(relx=0.5,rely=0.3,anchor='center')
-
-switch_theme_button=customtkinter.CTkRadioButton(root_settings,text=theme_text,font=("ariel",18),fg_color=fg_colour,bg_color=bg_colour,  corner_radius=6, width=100)
-switch_theme_button.place(relx=0.5,rely=0.5,anchor='center')
-
-exit_settings=customtkinter.CTkButton(root_settings,text=exit_text,font=("ariel",16),bg_color=bg_colour, corner_radius=6, width=80, command=close_settings)
-exit_settings.place(relx=0.5,rely=0.7,anchor='center')
-
-root_settings.mainloop()
+#shows questions on main GUI
+question=customtkinter.CTkLabel(root,text=questions[position],fg_color=fg_colour,wraplength=root.winfo_width()*0.5,font=(int("ariel",36*avg_size)), height=150*y_multi,width=new_width*0.3)
+next_button=customtkinter.CTkButton(root,text=next_text,bg_color=bg_colour,state="disabled",command=lambda:start(position+1),font=(int("ariel",36*avg_size)), height=50*y_multi,width=180*x_multi)
