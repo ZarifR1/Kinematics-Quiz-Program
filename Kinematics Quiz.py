@@ -283,7 +283,7 @@ def main_GUI():
         root_settings=Toplevel(bg=bg_colour)
         root_settings.title(settings_text)
         root_settings.geometry("300x400") 
-        bg_image2=Image.open("Images\Settings background.png")
+        bg_image2=Image.open("Images\Dark Settings background.png")
         bg_image_copy2=bg_image2.copy()
         bg_photoimage2=ImageTk.PhotoImage(bg_image_copy2)
         bg_settings=customtkinter.CTkLabel(root_settings,image=bg_photoimage2)
