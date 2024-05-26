@@ -52,12 +52,14 @@ def main_GUI():
     def switch_theme():
          global main_theme, theme_accent, bg_colour, fg_colour, text_colour
          if main_theme=="dark":
-              bg_image=Image.open("Images\Light Background image.png")                                                                       
+              bg_image=Image.open("Images\Light Background image.png")
+              customtkinter.set_appearance_mode("light")                                                                       
               bg_colour = "grey86"
               fg_colour = "grey70"
               text_colour = "black"
          if main_theme=="light":
               bg_image=Image.open("Images\Dark Background image.png")
+              customtkinter.set_appearance_mode("dark")   
               bg_colour = "grey17"
               fg_colour = "#363636"
               text_colour = "white"
@@ -320,6 +322,7 @@ def main_GUI():
         root.destroy()
         
     #defining GUI
+    customtkinter.set_appearance_mode("dark") 
     root=customtkinter.CTk()                                                                               
     root.title(title_text)
     root.geometry("720x480")                         
