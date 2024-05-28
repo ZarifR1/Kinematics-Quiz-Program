@@ -405,12 +405,6 @@ def main_GUI():
              #calls subprogram after quiz has finished
              answer_check()
     
-    def settings_exist():
-        try:
-            if root_settings.winfo_exists():
-                settings_button.configure(state="disabled")
-        except:
-            settings_button.configure(state="normal")
 
    #subprogram for settings menu
     def settings():
@@ -475,7 +469,7 @@ def main_GUI():
         translate_title.place(relx=0.5,rely=0.1,anchor='center')
 
         translated_combo=customtkinter.CTkComboBox(root_settings, width=150, values=language_list, bg_color=bg_colour, height=20)
-        translated_combo.set("english")
+        translated_combo.set(current_language)
         translated_combo.place(relx=0.5,rely=0.2,anchor='center')
 
         try:
@@ -537,8 +531,6 @@ def main_GUI():
 
     settings_button=customtkinter.CTkButton(root,text="",state="normal",image=ImageTk.PhotoImage(settings_image),font=("ariel",24),text_color=text_colour,width=50, command=settings)
     settings_button.place(relx=0.15,rely=0.85,anchor='center')
-
-    settings_exist()
 
     exit_main=customtkinter.CTkButton(root,text=exit_text,font=("ariel",24),text_color=text_colour,bg_color=bg_colour, width=50, command=close_main)
     exit_main.place(relx=0.85,rely=0.85,anchor='center')
