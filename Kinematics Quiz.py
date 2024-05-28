@@ -121,19 +121,32 @@ def main_GUI():
             #immediately translates any existing widget into translated language
             exit_main.configure(text=translator(exit_text))
             current_language=translated_combo.get()
-            print(current_language)
+            
             try:
                 if start_button.winfo_exists():
                     title.configure(text=translator(title_text))
                     start_button.configure(text=translator(start_text))
+            except:
+                pass
+            try:
                 if question.winfo_exists():
                     question.configure(text=translated_questions[current_q])
                     next_button.configure(text=translator(next_text))
+            except:
+                pass
+            try:
                 if option_A.winfo_exists():
-                    option_A.configure(text=translated_A[current_q])
-                    option_B.configure(text=translated_B[current_q])
-                    option_C.configure(text=translated_C[current_q])
-                    option_D.configure(text=translated_D[current_q])
+                    option_A_text="A) "+translated_A[current_q]
+                    option_A.configure(text=option_A_text)
+                    option_B_text="B) "+translated_B[current_q]
+                    option_B.configure(text=option_B_text)
+                    option_C_text="C) "+translated_C[current_q]
+                    option_C.configure(text=option_C_text)
+                    option_D_text="D) "+translated_D[current_q]
+                    option_D.configure(text=option_D_text)
+            except:
+                pass
+            try:
                 if score_title.winfo_exists():
                     score_title.configure(text=translator(score_text))
                     restart_button.configure(text=translator(restart_text))
@@ -141,8 +154,9 @@ def main_GUI():
                     settings()
             except:
                 pass
-                root_settings.destroy()
-                settings()
+            root_settings.destroy()
+            settings()
+
         except:
             pass
 
@@ -183,25 +197,36 @@ def main_GUI():
             if title.winfo_exists():
                 title.configure(fg_color=fg_colour,text_color=text_colour)
                 start_button.configure(bg_color=bg_colour,text_color=text_colour)
+         except:
+            pass
+         try:
             if question.winfo_exists():
                 question.configure(fg_color=fg_colour,text_color=text_colour)
                 next_button.configure(bg_color=bg_colour,text_color=text_colour)
+         except:
+            pass
+         try:
             if option_A.winfo_exists():
                 option_A.configure(bg_color=bg_colour,text_color=text_colour)
                 option_B.configure(bg_color=bg_colour,text_color=text_colour)
                 option_C.configure(bg_color=bg_colour,text_color=text_colour)
                 option_D.configure(bg_color=bg_colour,text_color=text_colour)
+         except:
+            pass
+         try:
             if input_entry.winfo_exists():
                 input_entry.configure(fg_color=fg_colour,bg_color=bg_colour,text_color=text_colour)
+         except:
+            pass
+         try:
             if score_title.winfo_exists():
                 score_title.configure(fg_color=fg_colour,bg_color=bg_colour,text_color=text_colour)
                 final_score.configure(fg_color=fg_colour,bg_color=bg_colour,text_color=text_colour)
                 restart_button.configure(bg_color=bg_colour,text_color=text_colour)
-                root_settings.destroy()
-                settings()
          except:
-            root_settings.destroy()
-            settings()
+            pass
+         root_settings.destroy()
+         settings()
          
     #subprogram for starting quiz
     def start(position):
@@ -380,9 +405,17 @@ def main_GUI():
              #calls subprogram after quiz has finished
              answer_check()
     
-                
+
+
    #subprogram for settings menu
     def settings():
+
+        def settings_exist():
+            try:
+                if root_settings.winfo_exists():
+                    settings_button.configure(state="disabled")
+            except:
+                settings_button.configure(state="normal")
         
         #rescales settings menu
         def scaler_settings(current):
@@ -468,7 +501,9 @@ def main_GUI():
             exit_settings_text=exit_text
         exit_settings=customtkinter.CTkButton(root_settings,text_color=text_colour,text=exit_settings_text,font=("ariel",16),bg_color=bg_colour, corner_radius=6, width=80, height=30, command=close_settings)
         exit_settings.place(relx=0.5,rely=0.7,anchor='center')
-
+        
+        
+        settings_exist()
         root_settings.mainloop()
 
     #subprogram for exit button
