@@ -405,17 +405,15 @@ def main_GUI():
              #calls subprogram after quiz has finished
              answer_check()
     
-
+    def settings_exist():
+        try:
+            if root_settings.winfo_exists():
+                settings_button.configure(state="disabled")
+        except:
+            settings_button.configure(state="normal")
 
    #subprogram for settings menu
     def settings():
-
-        def settings_exist():
-            try:
-                if root_settings.winfo_exists():
-                    settings_button.configure(state="disabled")
-            except:
-                settings_button.configure(state="normal")
         
         #rescales settings menu
         def scaler_settings(current):
@@ -438,7 +436,7 @@ def main_GUI():
             #resizing settings elements
             frame_settings.configure(width=new_width*0.6,height=new_height*0.6)
             translate_title.configure(font=("ariel",48*avg_size),width=100*x_multi,height=60*y_multi)
-            translated_combo.configure(width=700*x_multi,height=60*y_multi)
+            translated_combo.configure(font=("ariel",48*avg_size),width=700*x_multi,height=60*y_multi)
             translate_button.configure(font=("ariel",48*avg_size),width=100*x_multi,height=90*y_multi)
             switch_theme_button.configure(font=("ariel",48*avg_size),width=100*x_multi,height=60*y_multi)
             exit_settings.configure(font=("ariel",48*avg_size),height=90*y_multi,width=280*x_multi)
@@ -502,8 +500,6 @@ def main_GUI():
         exit_settings=customtkinter.CTkButton(root_settings,text_color=text_colour,text=exit_settings_text,font=("ariel",16),bg_color=bg_colour, corner_radius=6, width=80, height=30, command=close_settings)
         exit_settings.place(relx=0.5,rely=0.7,anchor='center')
         
-        
-        settings_exist()
         root_settings.mainloop()
 
     #subprogram for exit button
@@ -541,6 +537,8 @@ def main_GUI():
 
     settings_button=customtkinter.CTkButton(root,text="",state="normal",image=ImageTk.PhotoImage(settings_image),font=("ariel",24),text_color=text_colour,width=50, command=settings)
     settings_button.place(relx=0.15,rely=0.85,anchor='center')
+
+    settings_exist()
 
     exit_main=customtkinter.CTkButton(root,text=exit_text,font=("ariel",24),text_color=text_colour,bg_color=bg_colour, width=50, command=close_main)
     exit_main.place(relx=0.85,rely=0.85,anchor='center')
