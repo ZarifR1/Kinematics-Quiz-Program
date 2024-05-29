@@ -1,4 +1,3 @@
-User Guide
 When the program is opened, the start menu contains 3 buttons; start quiz, settings and exit.
 Exit button closes the GUI.
 Settings button opens a separate settings GUI.
