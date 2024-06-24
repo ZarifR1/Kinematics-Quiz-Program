@@ -12,6 +12,7 @@ def main_GUI():
     #subprogram for rescaling GUI
     def scaler(current):
         #sets scalar multiples for all screen elements
+        print(current)
         global avg_size, new_height, new_width, x_multi, y_multi,avg_size
         new_height=current.height
         new_width=current.width
@@ -23,20 +24,19 @@ def main_GUI():
         #resizing GUI background
         if main_theme=="dark":
             bg_image=Image.open("Images\Dark Background image.png")
-        else:
+        if main_theme=="light":
             bg_image=Image.open("Images\Light Background image.png")
+        bg_image=bg_image_copy.resize((new_width,new_height))
         bg_photoimage=ImageTk.PhotoImage(bg_image)
         bg.configure(image=bg_photoimage)
         bg.image=bg_photoimage
     
 
         #resizing main_GUI elements
-        frame.configure(width=new_width*0.6,height=new_height*0.6)
-        settings_image=settings_image_copy.resize((int(70*avg_size),int(70*avg_size)))
-        settings_button.configure(image=ImageTk.PhotoImage(settings_image),height=30*y_multi,width=50*x_multi)
+        settings_button.configure(height=30*y_multi,width=100*x_multi)
+        exit_main.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
         #selection statement for immediate changes in scaling of existing widgets
         try:
-            exit_main.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
             if title.winfo_exists():
                 title.configure(font=("ariel",46*avg_size), height=30*y_multi,width=150*x_multi)
                 start_button.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
@@ -166,31 +166,31 @@ def main_GUI():
          current_theme=main_theme
          #fetches current theme of GUI and alters it
          if current_theme=="dark":
-              bg_image=Image.open("Images\Light Background image.png")
-              bg_image_copy=bg_image.copy()
-              bg_photoimage=ImageTk.PhotoImage(bg_image_copy)
-              bg.configure(image=bg_photoimage)
-              bg.bind("<Configure>",scaler)
               customtkinter.set_appearance_mode("light")                                                                       
               bg_colour = "grey86"
-              fg_colour = "grey70"
+              fg_colour = "#FFFFFF"
               text_colour = "black"
               main_theme="light"
-         if current_theme=="light":
-              bg_image=Image.open("Images\Dark Background image.png")
+              bg_image=Image.open("Images\Light Background image.png")
               bg_image_copy=bg_image.copy()
+              bg_image=bg_image_copy.resize((new_width,new_height))
               bg_photoimage=ImageTk.PhotoImage(bg_image_copy)
               bg.configure(image=bg_photoimage)
               bg.bind("<Configure>",scaler)
+         if current_theme=="light":
               customtkinter.set_appearance_mode("dark")   
               bg_colour = "grey17"
-              fg_colour = "#363636"
+              fg_colour = "#000000"
               text_colour = "white"
               main_theme="dark"
+              bg_image=Image.open("Images\Dark Background image.png")
+              bg_image_copy=bg_image.copy()
+              bg_image=bg_image_copy.resize((new_width,new_height))
+              bg_photoimage=ImageTk.PhotoImage(bg_image_copy)
+              bg.configure(image=bg_photoimage)
+              bg.bind("<Configure>",scaler)
         
         #immediately switches existing widgets into new theme
-         frame.configure(fg_color=fg_colour,bg_color=bg_colour)
-         frame.place(relx=0.5,rely=0.5,in_=bg, anchor="center")
          exit_main.configure(bg_color=bg_colour,text_color=text_colour)
          settings_button.configure(bg_color=bg_colour,text_color=text_colour)
          try:
@@ -282,7 +282,7 @@ def main_GUI():
 
         #subprogram to detect user input into the entry
         def entry_detection(event):
-            if (input_entry.get()).isalpha()==False:
+            if (input_entry.get()).isalpha() == True or (input_entry.get()).isalpha() == False:
                 next_button.configure(state="normal")
             else:
                 next_button.configure(state="disabled")
@@ -336,7 +336,7 @@ def main_GUI():
         if position > 4:
             global input_entry
             question.destroy()
-            user_entry_answers.append(float(input_entry.get()))
+            user_entry_answers.append(input_entry.get())
             input_entry.destroy()
             next_button.destroy()
         
@@ -349,7 +349,7 @@ def main_GUI():
             else:
                 question_text=translated_questions[position]
             question=customtkinter.CTkLabel(root,text_color=text_colour,text=question_text,fg_color=fg_colour,wraplength=root.winfo_width()*0.5,font=("ariel",36*avg_size), height=150*y_multi,width=new_width*0.3)
-            question.place(relx=0.5,rely=0.2,anchor='center')
+            question.place(relx=0.5,rely=0.3,anchor='center')
 
             #next button for moving to next question
             try:
@@ -357,7 +357,7 @@ def main_GUI():
             except:
                 next_button_text=next_text
             next_button=customtkinter.CTkButton(root,text_color=text_colour,text=next_button_text,bg_color=bg_colour,state="disabled",command=lambda:start(position+1),font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
-            next_button.place(relx=0.5,rely=0.85,anchor='center')
+            next_button.place(relx=0.8,rely=0.9,anchor='center')
 
             #condition for showing MCQ options
             if position < len(A):
@@ -369,7 +369,7 @@ def main_GUI():
                     option_A_text="A) "+translated_A[position]
                 option_A=customtkinter.CTkButton(root,text="",bg_color=bg_colour,text_color=text_colour,state="normal",command=lambda:answer_select("A"), font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
                 option_A.configure(text=option_A_text)
-                option_A.place(relx=0.35,rely=0.4,anchor='center')
+                option_A.place(relx=0.5,rely=0.45,anchor='center')
 
                 if current_language=="english":
                     option_B_text="B) "+B[position]
@@ -377,7 +377,7 @@ def main_GUI():
                     option_B_text="B) "+translated_B[position]
                 option_B=customtkinter.CTkButton(root,text="",bg_color=bg_colour,text_color=text_colour,state="normal",command=lambda:answer_select("B"), font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
                 option_B.configure(text=option_B_text)
-                option_B.place(relx=0.35,rely=0.5,anchor='center')
+                option_B.place(relx=0.5,rely=0.55,anchor='center')
 
                 if current_language=="english":
                     option_C_text="C) "+C[position]
@@ -385,7 +385,7 @@ def main_GUI():
                     option_C_text="C) "+translated_C[position]
                 option_C=customtkinter.CTkButton(root,text="",bg_color=bg_colour,text_color=text_colour,state="normal",command=lambda:answer_select("C"), font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
                 option_C.configure(text=option_C_text)
-                option_C.place(relx=0.35,rely=0.6,anchor='center')
+                option_C.place(relx=0.5,rely=0.65,anchor='center')
 
                 if current_language=="english":
                     option_D_text="D) "+D[position]
@@ -393,7 +393,7 @@ def main_GUI():
                     option_D_text="D) "+translated_D[position]
                 option_D=customtkinter.CTkButton(root,text="",bg_color=bg_colour,text_color=text_colour,state="normal",command=lambda:answer_select("D"), font=("ariel",36*avg_size), height=50*y_multi,width=180*x_multi)
                 option_D.configure(text=option_D_text)
-                option_D.place(relx=0.35,rely=0.7,anchor='center')
+                option_D.place(relx=0.5,rely=0.75,anchor='center')
 
             else:
                 #placing input entry on root
@@ -511,29 +511,23 @@ def main_GUI():
     bg_image=Image.open("Images\Dark Background image.png")
     bg_image_copy=bg_image.copy()
     bg_photoimage=ImageTk.PhotoImage(bg_image_copy)
-    bg=customtkinter.CTkLabel(root,image=bg_photoimage)
+    bg=customtkinter.CTkLabel(root,image=bg_photoimage,text="")
     bg.bind("<Configure>",scaler)
     bg.pack(fill='both',expand=True)
-    frame=customtkinter.CTkFrame(master=root,fg_color=fg_colour,bg_color=bg_colour,width=720,height=480,corner_radius=30)
-    frame.place(relx=0.5,rely=0.5,in_=bg, anchor="center")
+    
 
     #defining start menu elements
     title=customtkinter.CTkLabel(root,text=title_text,font=("ariel",30),text_color=text_colour,fg_color=fg_colour,height=20,width=150)
-    title.place(relx=0.5,rely=0.2,anchor='center')
+    title.place(relx=0.5,rely=0.35,anchor='center')
 
     start_button=customtkinter.CTkButton(root,text=start_text,font=("ariel",24),bg_color=bg_colour,text_color=text_colour, width=150, command=lambda:start(0))
-    start_button.place(relx=0.5,rely=0.4,anchor='center')
+    start_button.place(relx=0.5,rely=0.55,anchor='center')
 
-    #creating image for settings button
-    settings_image=Image.open("Images\settings symbol.png")
-    settings_image_copy=settings_image.copy()
-    settings_image=settings_image_copy.resize((50,50))
+    settings_button=customtkinter.CTkButton(root,text=settings_text,state="normal",font=("ariel",24),text_color=text_colour,width=150, command=settings)
+    settings_button.place(relx=0.1,rely=0.05,anchor='center')
 
-    settings_button=customtkinter.CTkButton(root,text="",state="normal",image=ImageTk.PhotoImage(settings_image),font=("ariel",24),text_color=text_colour,width=50, command=settings)
-    settings_button.place(relx=0.15,rely=0.85,anchor='center')
-
-    exit_main=customtkinter.CTkButton(root,text=exit_text,font=("ariel",24),text_color=text_colour,bg_color=bg_colour, width=50, command=close_main)
-    exit_main.place(relx=0.85,rely=0.85,anchor='center')
+    exit_main=customtkinter.CTkButton(root,text=exit_text,font=("ariel",24),text_color=text_colour,bg_color=bg_colour, width=150, command=close_main)
+    exit_main.place(relx=0.22,rely=0.05,anchor='center')
 
     root.mainloop()
 
@@ -564,12 +558,12 @@ D=["v=st","Curve with negative gradient","Zero","Force"]
 if main_theme == "light":
     theme_accent = "gray92"                                                                        
     bg_colour = "grey86"
-    fg_colour = "grey70"
+    fg_colour = "#FFFFFF"
     text_colour = "black"
 if main_theme == "dark":
     theme_accent = "gray14"
     bg_colour = "grey17"
-    fg_colour = "#363636"
+    fg_colour = "#000000"
     text_colour = "white"
 
 main_GUI()
