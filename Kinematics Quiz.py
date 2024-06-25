@@ -12,7 +12,6 @@ def main_GUI():
     #subprogram for rescaling GUI
     def scaler(current):
         #sets scalar multiples for all screen elements
-        print(current)
         global avg_size, new_height, new_width, x_multi, y_multi,avg_size
         new_height=current.height
         new_width=current.width
@@ -24,16 +23,15 @@ def main_GUI():
         #resizing GUI background
         if main_theme=="dark":
             bg_image=Image.open("Images\Dark Background image.png")
-        if main_theme=="light":
+        else:
             bg_image=Image.open("Images\Light Background image.png")
-        bg_image=bg_image_copy.resize((new_width,new_height))
+        bg_image=bg_image.resize((new_width,new_height))
         bg_photoimage=ImageTk.PhotoImage(bg_image)
         bg.configure(image=bg_photoimage)
         bg.image=bg_photoimage
-    
 
         #resizing main_GUI elements
-        settings_button.configure(height=30*y_multi,width=100*x_multi)
+        settings_button.configure(font=("ariel",36*avg_size),height=30*y_multi,width=100*x_multi)
         exit_main.configure(font=("ariel",36*avg_size),height=30*y_multi, width=100*x_multi)
         #selection statement for immediate changes in scaling of existing widgets
         try:
@@ -119,6 +117,7 @@ def main_GUI():
                 translated_D.append(translated_D_text)
 
             #immediately translates any existing widget into translated language
+            settings_button.configure(text=translator(settings_text))
             exit_main.configure(text=translator(exit_text))
             current_language=translated_combo.get()
             
@@ -156,6 +155,7 @@ def main_GUI():
                 pass
             root_settings.destroy()
             settings()
+            messagebox.ABORT
 
         except:
             pass
@@ -174,7 +174,7 @@ def main_GUI():
               bg_image=Image.open("Images\Light Background image.png")
               bg_image_copy=bg_image.copy()
               bg_image=bg_image_copy.resize((new_width,new_height))
-              bg_photoimage=ImageTk.PhotoImage(bg_image_copy)
+              bg_photoimage=ImageTk.PhotoImage(bg_image)
               bg.configure(image=bg_photoimage)
               bg.bind("<Configure>",scaler)
          if current_theme=="light":
@@ -186,7 +186,7 @@ def main_GUI():
               bg_image=Image.open("Images\Dark Background image.png")
               bg_image_copy=bg_image.copy()
               bg_image=bg_image_copy.resize((new_width,new_height))
-              bg_photoimage=ImageTk.PhotoImage(bg_image_copy)
+              bg_photoimage=ImageTk.PhotoImage(bg_image)
               bg.configure(image=bg_photoimage)
               bg.bind("<Configure>",scaler)
         
@@ -538,6 +538,7 @@ settings_text="Settings"
 exit_text="Exit"
 translator_text="Translator"
 translate_text="Translate"
+translating_text="Translating, please wait."
 theme_text="Switch theme"
 next_text="Next"
 restart_text="Restart Quiz"
