@@ -1,5 +1,5 @@
 #importing essential packages
-import tkinter as tk
+from tkinter import *
 from tkinter import Toplevel, ttk, messagebox
 import googletrans
 import customtkinter
@@ -57,7 +57,8 @@ def main_GUI():
 
     #subprogram for translating GUI
     def translate():
-        global current_language
+        global current_language, translating_text
+        messagebox.showinfo(message=translating_text)
         try:                                                                                
             #determining the language keys for translation
             global from_language_key, to_language_key
@@ -120,6 +121,8 @@ def main_GUI():
             settings_button.configure(text=translator(settings_text))
             exit_main.configure(text=translator(exit_text))
             current_language=translated_combo.get()
+
+            translating_text=translator(translating_text)
             
             try:
                 if start_button.winfo_exists():
@@ -155,8 +158,6 @@ def main_GUI():
                 pass
             root_settings.destroy()
             settings()
-            messagebox.ABORT
-
         except:
             pass
 
@@ -167,7 +168,7 @@ def main_GUI():
          #fetches current theme of GUI and alters it
          if current_theme=="dark":
               customtkinter.set_appearance_mode("light")                                                                       
-              bg_colour = "grey86"
+              bg_colour = "grey51"
               fg_colour = "#FFFFFF"
               text_colour = "black"
               main_theme="light"
@@ -505,7 +506,10 @@ def main_GUI():
     customtkinter.set_appearance_mode("dark") 
     root=customtkinter.CTk()                                                                               
     root.title(title_text)
-    root.geometry("720x480")                         
+    root.geometry("720x480")
+    customtkinter.deactivate_automatic_dpi_awareness()
+    customtkinter.set_widget_scaling(1.5)
+    customtkinter.set_window_scaling(1.5)                         
 
     #defining background
     bg_image=Image.open("Images\Dark Background image.png")
@@ -527,7 +531,7 @@ def main_GUI():
     settings_button.place(relx=0.1,rely=0.05,anchor='center')
 
     exit_main=customtkinter.CTkButton(root,text=exit_text,font=("ariel",24),text_color=text_colour,bg_color=bg_colour, width=150, command=close_main)
-    exit_main.place(relx=0.22,rely=0.05,anchor='center')
+    exit_main.place(relx=0.25,rely=0.05,anchor='center')
 
     root.mainloop()
 
@@ -538,7 +542,7 @@ settings_text="Settings"
 exit_text="Exit"
 translator_text="Translator"
 translate_text="Translate"
-translating_text="Translating, please wait."
+translating_text="Please wait for translation"
 theme_text="Switch theme"
 next_text="Next"
 restart_text="Restart Quiz"
@@ -553,7 +557,7 @@ questions = ["Which of the following is the equation for average velocity (v is 
 A=["v=s/t","Straight line with positive gradient","Not enough information","acceleration"]
 B=["v=u+at","Straight line with negative gradient","Less than initial velocity but not zero","displacement"]
 C=["v=u+a/t","Curve with positive gradient","More than initial velocity","distance"]
-D=["v=st","Curve with negative gradient","Zero","Force"]
+D=["v=st","Curve with negative gradient","Zero","force"]
 
 #information to change theme
 if main_theme == "light":
